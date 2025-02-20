@@ -1,4 +1,3 @@
-package JOGO21;
 import java.util.ArrayList;
 
 public class Player {

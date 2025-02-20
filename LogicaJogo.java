@@ -1,4 +1,3 @@
-package JOGO21;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -13,19 +12,18 @@ public class LogicaJogo {
     private int vitoriasDealer = 0;
 
     public LogicaJogo() {
-        iniciarNovaPartida();
+        iniciarNovaPartidaVazio();
     }
 
-    public void iniciarNovaPartida() {
+    /**
+     * 🚀 Reinicia o jogo, mas **não** distribui cartas automaticamente.
+     * Isso permite que `Principal.java` faça a animação da distribuição inicial.
+     */
+    public void iniciarNovaPartidaVazio() {
         construirEEmbaralharBaralho();
         jogador = new Player();
         dealer = new Player();
-
-        cartaOculta = comprarCarta();
-        dealer.receberCarta(comprarCarta());
-
-        jogador.receberCarta(comprarCarta());
-        jogador.receberCarta(comprarCarta());
+        cartaOculta = null;
     }
 
     private void construirEEmbaralharBaralho() {
@@ -41,21 +39,52 @@ public class LogicaJogo {
         Collections.shuffle(baralho, random);
     }
 
+    /**
+     * 🃏 Retorna uma carta do baralho, mas **não** adiciona à mão.
+     * A adição à mão será feita **após a animação terminar**.
+     */
     public Carta comprarCarta() {
         return baralho.remove(baralho.size() - 1);
     }
 
-    public void jogadorComprarCarta() {
-        jogador.receberCarta(comprarCarta());
+    /**
+     * 🎴 Jogador recebe carta **após a animação terminar**.
+     */
+    public void receberCartaJogador(Carta carta) {
+        jogador.receberCarta(carta);
     }
 
-    public void dealerJogar() {
-        dealer.receberCarta(cartaOculta);
-        while (dealer.getSoma() < 17) {
-            dealer.receberCarta(comprarCarta());
-        }
+    /**
+     * 🃏 Dealer recebe carta **após a animação terminar**.
+     */
+    public void receberCartaDealer(Carta carta) {
+        dealer.receberCarta(carta);
     }
 
+    /**
+     * 🔹 Define a carta oculta do Dealer (a primeira carta que será revelada depois).
+     */
+    public void setCartaOculta(Carta carta) {
+        this.cartaOculta = carta;
+    }
+
+    public Carta getCartaOculta() {
+        return cartaOculta;
+    }
+
+    /**
+     * 🏆 Dealer joga após o jogador parar.
+     * - **Antes**: Ele comprava instantaneamente.
+     * - **Agora**: Esse método **apenas retorna se o Dealer deve continuar jogando**.
+     *   As compras animadas são controladas no `Principal.java`.
+     */
+    public boolean dealerDeveContinuarJogando() {
+        return dealer.getSoma() < 17;
+    }
+
+    /**
+     * 📢 Mensagem do resultado final.
+     */
     public String getMensagemResultado() {
         int somaJogador = jogador.getSoma();
         int somaDealer = dealer.getSoma();
@@ -93,9 +122,5 @@ public class LogicaJogo {
 
     public Player getDealer() {
         return dealer;
-    }
-
-    public Carta getCartaOculta() {
-        return cartaOculta;
     }
 }

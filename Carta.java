@@ -1,4 +1,3 @@
-package JOGO21;
 public class Carta {
     private String valor;
     private String naipe;
