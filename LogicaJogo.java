@@ -15,10 +15,7 @@ public class LogicaJogo {
         iniciarNovaPartidaVazio();
     }
 
-    /**
-     * 🚀 Reinicia o jogo, mas **não** distribui cartas automaticamente.
-     * Isso permite que `Principal.java` faça a animação da distribuição inicial.
-     */
+    // aqui vai reiniciar o jogo, porém não vai distribuir as cartas, animação vai começar aqui
     public void iniciarNovaPartidaVazio() {
         construirEEmbaralharBaralho();
         jogador = new Player();
@@ -39,31 +36,20 @@ public class LogicaJogo {
         Collections.shuffle(baralho, random);
     }
 
-    /**
-     * 🃏 Retorna uma carta do baralho, mas **não** adiciona à mão.
-     * A adição à mão será feita **após a animação terminar**.
-     */
     public Carta comprarCarta() {
         return baralho.remove(baralho.size() - 1);
     }
 
-    /**
-     * 🎴 Jogador recebe carta **após a animação terminar**.
-     */
+    // aq o jogador vai receber a carta
     public void receberCartaJogador(Carta carta) {
         jogador.receberCarta(carta);
     }
 
-    /**
-     * 🃏 Dealer recebe carta **após a animação terminar**.
-     */
+    // compiuter vai receber a carta
     public void receberCartaDealer(Carta carta) {
         dealer.receberCarta(carta);
     }
 
-    /**
-     * 🔹 Define a carta oculta do Dealer (a primeira carta que será revelada depois).
-     */
     public void setCartaOculta(Carta carta) {
         this.cartaOculta = carta;
     }
@@ -72,40 +58,32 @@ public class LogicaJogo {
         return cartaOculta;
     }
 
-    /**
-     * 🏆 Dealer joga após o jogador parar.
-     * - **Antes**: Ele comprava instantaneamente.
-     * - **Agora**: Esse método **apenas retorna se o Dealer deve continuar jogando**.
-     *   As compras animadas são controladas no `Principal.java`.
-     */
     public boolean dealerDeveContinuarJogando() {
         return dealer.getSoma() < 17;
     }
 
-    /**
-     * 📢 Mensagem do resultado final.
-     */
+    // resultado
     public String getMensagemResultado() {
         int somaJogador = jogador.getSoma();
         int somaDealer = dealer.getSoma();
 
         if (somaJogador > 21) {
             vitoriasDealer++;
-            return "Você perdeu!";
+            return "Ixii, você perdeu!";
         }
         if (somaDealer > 21) {
             vitoriasJogador++;
-            return "Você ganhou!";
+            return "Boaaa, você ganhou! :)";
         }
         if (somaJogador == somaDealer) {
-            return "Empate!";
+            return "Puts, empatou!";
         }
         if (somaJogador > somaDealer) {
             vitoriasJogador++;
-            return "Você ganhou!";
+            return "Boaaa, você ganhou! :)";
         }
         vitoriasDealer++;
-        return "Você perdeu!";
+        return "Ixii, você perdeu!";
     }
 
     public int getVitoriasJogador() {

@@ -1,3 +1,5 @@
+// oie prof, boa jogatina! :)
+
 public class Carta {
     private String valor;
     private String naipe;

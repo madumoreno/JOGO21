@@ -12,7 +12,7 @@ public class PainelJogo extends JPanel {
     private final int alturaCarta = 140;
     private final int espacamento = 20;
 
-    // 🎴 FILA DE ANIMAÇÕES
+    // aq é a fila de animação
     private static class Animacao {
         Carta carta;
         boolean paraJogador;
@@ -28,7 +28,7 @@ public class PainelJogo extends JPanel {
     private Queue<Animacao> filaAnimacoes = new LinkedList<>();
     private boolean animando = false;
 
-    // 📌 Variáveis para animação atual
+    //  variáveis para animação
     private Carta cartaAnimada;
     private boolean cartaParaJogador;
     private Runnable callbackAtual;
@@ -42,13 +42,13 @@ public class PainelJogo extends JPanel {
         setBackground(new Color(39, 119, 20));
     }
 
-    // 🚀 Método para adicionar uma nova animação na fila
+    // método para adicionar uma nova animação na fila
     public void animarCompraCarta(Carta carta, boolean paraJogador, Runnable callback) {
         filaAnimacoes.offer(new Animacao(carta, paraJogador, callback));
         iniciarProximaAnimacaoSePossivel();
     }
 
-    // 🎬 Se nenhuma animação estiver rodando, inicia a próxima na fila
+    // se nenhuma animação estiver rodando ele inicia a próxima da fila
     private void iniciarProximaAnimacaoSePossivel() {
         if (!animando && !filaAnimacoes.isEmpty()) {
             iniciarAnimacao(filaAnimacoes.poll());
@@ -61,13 +61,11 @@ public class PainelJogo extends JPanel {
         this.cartaParaJogador = anim.paraJogador;
         this.callbackAtual = anim.callback;
 
-        // 📌 Posição inicial (baralho, topo central)
         xInicialBaralho = getWidth() / 2 - larguraCarta / 2;
         yInicialBaralho = 10;
         this.xAnim = xInicialBaralho;
         this.yAnim = yInicialBaralho;
 
-        // 📌 Calcula posição final (onde a carta será desenhada)
         List<Carta> maoDestino = cartaParaJogador
                 ? logicaJogo.getJogador().getMao()
                 : logicaJogo.getDealer().getMao();
@@ -136,10 +134,10 @@ public class PainelJogo extends JPanel {
     private void desenharCartasFixas(Graphics g) {
         int centroX = getWidth() / 2;
 
-        // Dealer 🃏
+        // compiuter
         desenharMao(g, logicaJogo.getDealer().getMao(), centroX, 50, !revelarCartasDealer);
 
-        // Jogador 🎴
+        // jogador
         desenharMao(g, logicaJogo.getJogador().getMao(), centroX, 300, false);
 
         if (revelarCartasDealer) {
